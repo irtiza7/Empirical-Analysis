@@ -3,7 +3,7 @@ class Node {
     Node left, right;
   
     Node(int d) {
-      item = d;
-      height = 1;
+      this.item = d;
+      this.height = 1;
     }
 }

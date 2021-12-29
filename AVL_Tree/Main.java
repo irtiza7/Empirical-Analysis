@@ -14,7 +14,7 @@ public class Main {
     Integer[] dataNormalDist = new Integer[n/2];
     Integer[] sortedData = new Integer[n/2];
 
-    for (int i = 0; i < (n/ 2); i++) {
+    for (int i = 0; i < (n / 2); i++) {
       number = rand.nextInt(n);
       dataNormalDist[i] = number;
     }
@@ -53,9 +53,6 @@ public class Main {
     System.out.println("Average Comparisons: " + averageComparrisons);
         
     long elapsedTime = System.nanoTime() - startTime;
-    System.out.println("Execution Time: " + elapsedTime / 1000000 + " milliseconds");
-     
-      
-    // tree.root = tree.insertNode(tree.root, 33);
+    System.out.println("Execution Time: " + elapsedTime / 1000000 + " milliseconds");   
   }
 }
