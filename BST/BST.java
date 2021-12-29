@@ -1,9 +1,9 @@
 public class BST {
     public static int comparisons = 0;
-    Node root;
+    public Node root;
     
     BST() {
-         root = null;
+        this.root = null;
     }
 
     String search(int key, Node root) {
@@ -22,9 +22,11 @@ public class BST {
         }
         return "Not Found";
     }
+
     void insert(int key) {
          root = insertRec(root, key);
     }
+
     Node insertRec(Node root, int key) {
         if (root == null) {
             root = new Node(key);

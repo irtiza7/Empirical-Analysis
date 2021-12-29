@@ -4,8 +4,9 @@ public class Splay_Tree {
     private Node root;
 
     public Splay_Tree() {
-        root = null;
+        this.root = null;
     }
+
     public Node searchTreeHelper(Node node, int key) {
         if (node == null || key == node.data) {
             comparisons++;
@@ -18,6 +19,7 @@ public class Splay_Tree {
         comparisons++;
         return searchTreeHelper(node.right, key);
     }
+
     public void leftRotate(Node x) {
         rotations++;
         Node y = x.right;
@@ -36,6 +38,7 @@ public class Splay_Tree {
         y.left = x;
         x.parent = y;
     }
+
     public void rightRotate(Node x) {
         rotations++;
         Node y = x.left;
@@ -54,6 +57,7 @@ public class Splay_Tree {
         y.right = x;
         x.parent = y;
     }
+
     public void splay(Node x) {
         while (x.parent != null) {
             if (x.parent.parent == null) {
@@ -77,6 +81,7 @@ public class Splay_Tree {
             }
         }
     }
+
     public Node join(Node s, Node t){
         if (s == null) {
             return t;
@@ -91,36 +96,7 @@ public class Splay_Tree {
         t.parent = x;
         return x;
     }
-    // public void preOrderHelper(Node node) {
-    //     if (node != null) {
-    //         System.out.print(node.data + " ");
-    //         preOrderHelper(node.left);
-    //         preOrderHelper(node.right);
-    //     }
-    // }
-    // public void inOrderHelper(Node node) {
-    //     if (node != null) {
-    //         inOrderHelper(node.left);
-    //         System.out.print(node.data + " ");
-    //         inOrderHelper(node.right);
-    //     }
-    // }
-    // public void postOrderHelper(Node node) {
-    //     if (node != null) {
-    //         postOrderHelper(node.left);
-    //         postOrderHelper(node.right);
-    //         System.out.print(node.data + " ");
-    //     }
-    // }
-    // public void preorder() {
-    //     preOrderHelper(this.root);
-    // }
-    // public void inorder() {
-    //     inOrderHelper(this.root);
-    // }
-    // public void postorder() {
-    //     postOrderHelper(this.root);
-    // }
+
     public Node searchTree(int k) {
         Node x = searchTreeHelper(root, k);
         if (x != null) {
@@ -128,18 +104,21 @@ public class Splay_Tree {
         }
         return x;
     }
+
     public Node minimum(Node node) {
         while (node.left != null) {
             node = node.left;
         }
         return node;
     }
+
     public Node maximum(Node node) {
         while (node.right != null) {
             node = node.right;
         }
         return node;
     }
+
     public Node successor(Node x) {
         if (x.right != null) {
             return minimum(x.right);
@@ -151,6 +130,7 @@ public class Splay_Tree {
         }
         return y;
     }
+
     public Node predecessor(Node x) {
         if (x.left != null) {
             return maximum(x.left);
@@ -162,6 +142,7 @@ public class Splay_Tree {
         }
         return y;
     }
+
     public void insert(int key) {
         Node node = new Node(key);
         Node y = null;
