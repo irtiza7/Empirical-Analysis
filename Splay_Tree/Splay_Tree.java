@@ -1,74 +1,25 @@
 public class Splay_Tree {
+    public static int rotations = 0;
+    public static int comparisons = 0;
     private Node root;
 
     public Splay_Tree() {
         root = null;
     }
-    private void printHelper(Node currPtr, String indent, boolean last) {
-        if (currPtr != null) {
-            System.out.print(indent);
-            if (last) {
-                System.out.print("R----");
-                indent += "     ";
-            } else {
-                System.out.print("L----");
-                indent += "|    ";
-            }
-            System.out.println(currPtr.data);
-
-            printHelper(currPtr.left, indent, false);
-            printHelper(currPtr.right, indent, true);
-        }
-    }
-    private Node searchTreeHelper(Node node, int key) {
+    public Node searchTreeHelper(Node node, int key) {
         if (node == null || key == node.data) {
+            comparisons++;
             return node;
         }
         if (key < node.data) {
+            comparisons++;
             return searchTreeHelper(node.left, key);
         }
+        comparisons++;
         return searchTreeHelper(node.right, key);
     }
-    private void deleteNodeHelper(Node node, int key) {
-        Node x = null;
-        Node t = null;
-        Node s = null;
-
-        while (node != null){
-            if (node.data == key) {
-                x = node;
-            }
-
-            if (node.data <= key) {
-                node = node.right;
-            } else {
-                node = node.left;
-            }
-        }
-        if (x == null) {
-            System.out.println("Couldn't find key in the tree");
-            return;
-        }
-        // split operation
-        splay(x);
-        if (x.right != null) {
-            t = x.right;
-            t.parent = null;
-        } else {
-            t = null;
-        }
-        s = x;
-        s.right = null;
-        x = null;
-        // join operation
-        if (s.left != null){ // remove x
-            s.left.parent = null;
-        }
-        root = join(s.left, t);
-        s = null;
-    }
-    // rotate left at node x
-    private void leftRotate(Node x) {
+    public void leftRotate(Node x) {
+        rotations++;
         Node y = x.right;
         x.right = y.left;
         if (y.left != null) {
@@ -85,8 +36,8 @@ public class Splay_Tree {
         y.left = x;
         x.parent = y;
     }
-    // rotate right at node x
-    private void rightRotate(Node x) {
+    public void rightRotate(Node x) {
+        rotations++;
         Node y = x.left;
         x.left = y.right;
         if (y.right != null) {
@@ -103,38 +54,30 @@ public class Splay_Tree {
         y.right = x;
         x.parent = y;
     }
-    // Splaying operation. It moves x to the root of the tree
-    private void splay(Node x) {
+    public void splay(Node x) {
         while (x.parent != null) {
             if (x.parent.parent == null) {
                 if (x == x.parent.left) {
-                    // zig rotation
                     rightRotate(x.parent);
                 } else {
-                    // zag rotation
                     leftRotate(x.parent);
                 }
             } else if (x == x.parent.left && x.parent == x.parent.parent.left) {
-                // zig-zig rotation
                 rightRotate(x.parent.parent);
                 rightRotate(x.parent);
             } else if (x == x.parent.right && x.parent == x.parent.parent.right) {
-                // zag-zag rotation
                 leftRotate(x.parent.parent);
                 leftRotate(x.parent);
             } else if (x == x.parent.right && x.parent == x.parent.parent.left) {
-                // zig-zag rotation
                 leftRotate(x.parent);
                 rightRotate(x.parent);
             } else {
-                // zag-zig rotation
                 rightRotate(x.parent);
                 leftRotate(x.parent);
             }
         }
     }
-    // joins two trees s and t
-    private Node join(Node s, Node t){
+    public Node join(Node s, Node t){
         if (s == null) {
             return t;
         }
@@ -148,44 +91,36 @@ public class Splay_Tree {
         t.parent = x;
         return x;
     }
-    private void preOrderHelper(Node node) {
-        if (node != null) {
-            System.out.print(node.data + " ");
-            preOrderHelper(node.left);
-            preOrderHelper(node.right);
-        }
-    }
-    private void inOrderHelper(Node node) {
-        if (node != null) {
-            inOrderHelper(node.left);
-            System.out.print(node.data + " ");
-            inOrderHelper(node.right);
-        }
-    }
-    private void postOrderHelper(Node node) {
-        if (node != null) {
-            postOrderHelper(node.left);
-            postOrderHelper(node.right);
-            System.out.print(node.data + " ");
-        }
-    }
-    // Pre-Order traversal
-    // Node->Left Subtree->Right Subtree
-    public void preorder() {
-        preOrderHelper(this.root);
-    }
-    // In-Order traversal
-    // Left Subtree -> Node -> Right Subtree
-    public void inorder() {
-        inOrderHelper(this.root);
-    }
-    // Post-Order traversal
-    // Left Subtree -> Right Subtree -> Node
-    public void postorder() {
-        postOrderHelper(this.root);
-    }
-    // search the tree for the key k
-    // and return the corresponding node
+    // public void preOrderHelper(Node node) {
+    //     if (node != null) {
+    //         System.out.print(node.data + " ");
+    //         preOrderHelper(node.left);
+    //         preOrderHelper(node.right);
+    //     }
+    // }
+    // public void inOrderHelper(Node node) {
+    //     if (node != null) {
+    //         inOrderHelper(node.left);
+    //         System.out.print(node.data + " ");
+    //         inOrderHelper(node.right);
+    //     }
+    // }
+    // public void postOrderHelper(Node node) {
+    //     if (node != null) {
+    //         postOrderHelper(node.left);
+    //         postOrderHelper(node.right);
+    //         System.out.print(node.data + " ");
+    //     }
+    // }
+    // public void preorder() {
+    //     preOrderHelper(this.root);
+    // }
+    // public void inorder() {
+    //     inOrderHelper(this.root);
+    // }
+    // public void postorder() {
+    //     postOrderHelper(this.root);
+    // }
     public Node searchTree(int k) {
         Node x = searchTreeHelper(root, k);
         if (x != null) {
@@ -193,34 +128,22 @@ public class Splay_Tree {
         }
         return x;
     }
-
-    // find the node with the minimum key
     public Node minimum(Node node) {
         while (node.left != null) {
             node = node.left;
         }
         return node;
     }
-
-    // find the node with the maximum key
     public Node maximum(Node node) {
         while (node.right != null) {
             node = node.right;
         }
         return node;
     }
-
-    // find the successor of a given node
     public Node successor(Node x) {
-        // if the right subtree is not null,
-        // the successor is the leftmost node in the
-        // right subtree
         if (x.right != null) {
             return minimum(x.right);
         }
-
-        // else it is the lowest ancestor of x whose
-        // left child is also an ancestor of x.
         Node y = x.parent;
         while (y != null && x == y.right) {
             x = y;
@@ -228,26 +151,17 @@ public class Splay_Tree {
         }
         return y;
     }
-
-    // find the predecessor of a given node
     public Node predecessor(Node x) {
-        // if the left subtree is not null,
-        // the predecessor is the rightmost node in the
-        // left subtree
         if (x.left != null) {
             return maximum(x.left);
         }
-
         Node y = x.parent;
         while (y != null && x == y.left) {
             x = y;
             y = y.parent;
         }
-
         return y;
     }
-
-    // insert the key to the tree in its appropriate position
     public void insert(int key) {
         Node node = new Node(key);
         Node y = null;
@@ -261,8 +175,6 @@ public class Splay_Tree {
                 x = x.right;
             }
         }
-
-        // y is parent of x
         node.parent = y;
         if (y == null) {
             root = node;
@@ -271,14 +183,6 @@ public class Splay_Tree {
         } else {
             y.right = node;
         }
-
-        // splay node
         splay(node);
-    }
-    void deleteNode(int data) {
-        deleteNodeHelper(this.root, data);
-    }
-    public void prettyPrint() {
-        printHelper(this.root, "", true);
     }
 }
