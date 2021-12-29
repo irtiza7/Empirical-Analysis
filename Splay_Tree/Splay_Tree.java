@@ -1,11 +1,10 @@
 public class Splay_Tree {
     private Node root;
-    
+
     public Splay_Tree() {
         root = null;
     }
     private void printHelper(Node currPtr, String indent, boolean last) {
-        // print the tree structure on the screen
         if (currPtr != null) {
             System.out.print(indent);
             if (last) {
@@ -15,29 +14,26 @@ public class Splay_Tree {
                 System.out.print("L----");
                 indent += "|    ";
             }
-
             System.out.println(currPtr.data);
 
             printHelper(currPtr.left, indent, false);
             printHelper(currPtr.right, indent, true);
         }
     }
-
     private Node searchTreeHelper(Node node, int key) {
         if (node == null || key == node.data) {
             return node;
         }
-
         if (key < node.data) {
             return searchTreeHelper(node.left, key);
         }
         return searchTreeHelper(node.right, key);
     }
-
     private void deleteNodeHelper(Node node, int key) {
         Node x = null;
         Node t = null;
         Node s = null;
+
         while (node != null){
             if (node.data == key) {
                 x = node;
@@ -49,7 +45,6 @@ public class Splay_Tree {
                 node = node.left;
             }
         }
-
         if (x == null) {
             System.out.println("Couldn't find key in the tree");
             return;
@@ -65,7 +60,6 @@ public class Splay_Tree {
         s = x;
         s.right = null;
         x = null;
-
         // join operation
         if (s.left != null){ // remove x
             s.left.parent = null;
@@ -73,7 +67,6 @@ public class Splay_Tree {
         root = join(s.left, t);
         s = null;
     }
-
     // rotate left at node x
     private void leftRotate(Node x) {
         Node y = x.right;
@@ -92,7 +85,6 @@ public class Splay_Tree {
         y.left = x;
         x.parent = y;
     }
-
     // rotate right at node x
     private void rightRotate(Node x) {
         Node y = x.left;
@@ -111,7 +103,6 @@ public class Splay_Tree {
         y.right = x;
         x.parent = y;
     }
-
     // Splaying operation. It moves x to the root of the tree
     private void splay(Node x) {
         while (x.parent != null) {
@@ -142,7 +133,6 @@ public class Splay_Tree {
             }
         }
     }
-
     // joins two trees s and t
     private Node join(Node s, Node t){
         if (s == null) {
@@ -285,13 +275,9 @@ public class Splay_Tree {
         // splay node
         splay(node);
     }
-
-    // delete the node from the tree
     void deleteNode(int data) {
         deleteNodeHelper(this.root, data);
     }
-
-    // print the tree structure on the screen
     public void prettyPrint() {
         printHelper(this.root, "", true);
     }
