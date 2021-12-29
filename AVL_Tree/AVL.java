@@ -9,7 +9,6 @@ public class AVL {
     int max(int a, int b) {
       return (a > b) ? a : b;
     }
-  
     Node rightRotate(Node y) {
       Node x = y.left;
       Node T2 = x.right;
@@ -19,7 +18,6 @@ public class AVL {
       x.height = max(height(x.left), height(x.right)) + 1;
       return x;
     }
-  
     Node leftRotate(Node x) {
       Node y = x.right;
       Node T2 = y.left;
@@ -29,18 +27,12 @@ public class AVL {
       y.height = max(height(y.left), height(y.right)) + 1;
       return y;
     }
-  
-    // Get balance factor of a node
     int getBalanceFactor(Node N) {
       if (N == null)
         return 0;
       return height(N.left) - height(N.right);
     }
-  
-    // Insert a node
     Node insertNode(Node node, int item) {
-  
-      // Find the position and insert the node
       if (node == null)
         return (new Node(item));
       if (item < node.item)
@@ -49,9 +41,7 @@ public class AVL {
         node.right = insertNode(node.right, item);
       else
         return node;
-  
-      // Update the balance factor of each node
-      // And, balance the tree
+
       node.height = 1 + max(height(node.left), height(node.right));
       int balanceFactor = getBalanceFactor(node);
       if (balanceFactor > 1) {
@@ -79,11 +69,7 @@ public class AVL {
         current = current.left;
       return current;
     }
-  
-    // Delete a node
     Node deleteNode(Node root, int item) {
-  
-      // Find the node to be deleted and remove it
       if (root == null)
         return root;
       if (item < root.item)
@@ -108,10 +94,11 @@ public class AVL {
           root.right = deleteNode(root.right, temp.item);
         }
       }
-      if (root == null)
+      
+      if (root == null) {
         return root;
-  
-      // Update the balance factor of each node and balance the tree
+      }
+
       root.height = max(height(root.left), height(root.right)) + 1;
       int balanceFactor = getBalanceFactor(root);
       if (balanceFactor > 1) {
@@ -140,8 +127,7 @@ public class AVL {
         preOrder(node.right);
       }
     }
-  
-    // Print the tree
+    
     void printTree(Node currPtr, String indent, boolean last) {
       if (currPtr != null) {
         System.out.print(indent);
