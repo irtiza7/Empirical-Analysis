@@ -1,10 +1,27 @@
 public class BST {
+    public static int comparisons = 0;
     Node root;
     
     BST() {
          root = null;
     }
 
+    String search(int key, Node root) {
+        if (root == null) {
+            return "Not Found";
+        }
+        if (root.key == key) {
+            comparisons++;
+            return "Found"; 
+        } else if (key < root.key) {
+            comparisons++;
+            search(key, root.left);
+        } else if (key > root.key) {
+            comparisons++;
+            search(key, root.right);
+        }
+        return "Not Found";
+    }
     void insert(int key) {
          root = insertRec(root, key);
     }
@@ -19,15 +36,5 @@ public class BST {
             root.right = insertRec(root.right, key);
         }
         return root;
-    }
-    void inorder() {
-         inorderRec(root);
-    }
-    void inorderRec(Node root) {
-        if (root != null) {
-            inorderRec(root.left);
-            System.out.println(root.key);
-            inorderRec(root.right);
-        }
     }
 }
