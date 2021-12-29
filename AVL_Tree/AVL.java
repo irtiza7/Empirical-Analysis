@@ -1,5 +1,22 @@
 public class AVL {
+    public static int comparisons = 0;
     Node root;
+
+    public Node searchNode(int key, Node node) {
+      if (node == null) {
+        return null;
+      }
+      if (key == node.item) {
+        comparisons++;
+        return node;
+      } else if (key < node.item) {
+        comparisons++;
+        return searchNode(key, node.left);
+      } else {
+        comparisons++;
+        return searchNode(key, node.right);
+      }
+    }
 
     int height(Node N) {
       if (N == null)
@@ -69,78 +86,78 @@ public class AVL {
         current = current.left;
       return current;
     }
-    Node deleteNode(Node root, int item) {
-      if (root == null)
-        return root;
-      if (item < root.item)
-        root.left = deleteNode(root.left, item);
-      else if (item > root.item)
-        root.right = deleteNode(root.right, item);
-      else {
-        if ((root.left == null) || (root.right == null)) {
-          Node temp = null;
-          if (temp == root.left)
-            temp = root.right;
-          else
-            temp = root.left;
-          if (temp == null) {
-            temp = root;
-            root = null;
-          } else
-            root = temp;
-        } else {
-          Node temp = nodeWithMimumValue(root.right);
-          root.item = temp.item;
-          root.right = deleteNode(root.right, temp.item);
-        }
-      }
+    // Node deleteNode(Node root, int item) {
+    //   if (root == null)
+    //     return root;
+    //   if (item < root.item)
+    //     root.left = deleteNode(root.left, item);
+    //   else if (item > root.item)
+    //     root.right = deleteNode(root.right, item);
+    //   else {
+    //     if ((root.left == null) || (root.right == null)) {
+    //       Node temp = null;
+    //       if (temp == root.left)
+    //         temp = root.right;
+    //       else
+    //         temp = root.left;
+    //       if (temp == null) {
+    //         temp = root;
+    //         root = null;
+    //       } else
+    //         root = temp;
+    //     } else {
+    //       Node temp = nodeWithMimumValue(root.right);
+    //       root.item = temp.item;
+    //       root.right = deleteNode(root.right, temp.item);
+    //     }
+    //   }
       
-      if (root == null) {
-        return root;
-      }
+    //   if (root == null) {
+    //     return root;
+    //   }
 
-      root.height = max(height(root.left), height(root.right)) + 1;
-      int balanceFactor = getBalanceFactor(root);
-      if (balanceFactor > 1) {
-        if (getBalanceFactor(root.left) >= 0) {
-          return rightRotate(root);
-        } else {
-          root.left = leftRotate(root.left);
-          return rightRotate(root);
-        }
-      }
-      if (balanceFactor < -1) {
-        if (getBalanceFactor(root.right) <= 0) {
-          return leftRotate(root);
-        } else {
-          root.right = rightRotate(root.right);
-          return leftRotate(root);
-        }
-      }
-      return root;
-    }
+    //   root.height = max(height(root.left), height(root.right)) + 1;
+    //   int balanceFactor = getBalanceFactor(root);
+    //   if (balanceFactor > 1) {
+    //     if (getBalanceFactor(root.left) >= 0) {
+    //       return rightRotate(root);
+    //     } else {
+    //       root.left = leftRotate(root.left);
+    //       return rightRotate(root);
+    //     }
+    //   }
+    //   if (balanceFactor < -1) {
+    //     if (getBalanceFactor(root.right) <= 0) {
+    //       return leftRotate(root);
+    //     } else {
+    //       root.right = rightRotate(root.right);
+    //       return leftRotate(root);
+    //     }
+    //   }
+    //   return root;
+    // }
   
-    void preOrder(Node node) {
-      if (node != null) {
-        System.out.print(node.item + " ");
-        preOrder(node.left);
-        preOrder(node.right);
-      }
-    }
+    // void preOrder(Node node) {
+    //   if (node != null) {
+    //     System.out.print(node.item + " ");
+    //     preOrder(node.left);
+    //     preOrder(node.right);
+    //   }
+    // }
     
-    void printTree(Node currPtr, String indent, boolean last) {
-      if (currPtr != null) {
-        System.out.print(indent);
-        if (last) {
-          System.out.print("R----");
-          indent += "   ";
-        } else {
-          System.out.print("L----");
-          indent += "|  ";
-        }
-        System.out.println(currPtr.item);
-        printTree(currPtr.left, indent, false);
-        printTree(currPtr.right, indent, true);
-      }
-    }
+    // void printTree(Node currPtr, String indent, boolean last) {
+    //   if (currPtr != null) {
+    //     System.out.print(indent);
+    //     if (last) {
+    //       System.out.print("R----");
+    //       indent += "   ";
+    //     } else {
+    //       System.out.print("L----");
+    //       indent += "|  ";
+    //     }
+    //     System.out.println(currPtr.item);
+    //     printTree(currPtr.left, indent, false);
+    //     printTree(currPtr.right, indent, true);
+    //   }
+    // }
 }
